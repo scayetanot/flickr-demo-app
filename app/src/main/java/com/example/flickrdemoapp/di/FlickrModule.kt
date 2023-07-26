@@ -3,6 +3,8 @@ package com.example.flickrdemoapp.di
 import com.example.data.network.FlickrApiHelper
 import com.example.data.network.FlickrApiHelperImpl
 import com.example.data.network.FlickrService
+import com.example.data.repositories.FlickrRepositoryImpl
+import com.example.domain.interfaces.FlickrRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +28,12 @@ class FlickrModule {
         flickrService: FlickrService
     ): FlickrApiHelper {
         return FlickrApiHelperImpl(flickrService)
+    }
+
+    @Provides
+    fun provideFlickrRepository(
+        flickrApiHelper: FlickrApiHelper
+    ): FlickrRepository {
+        return FlickrRepositoryImpl(flickrApiHelper)
     }
 }

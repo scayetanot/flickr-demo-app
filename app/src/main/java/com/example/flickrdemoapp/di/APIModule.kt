@@ -1,5 +1,6 @@
 package com.example.flickrdemoapp.di
 
+import com.example.flickrdemoapp.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,9 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(SingletonComponent::class)
 @Module
 class APIModule {
-
-    @Provides
-    fun provideBaseUrl() = BuildConfig.BASE_URL
 
     @Provides
     fun provideOkHttpClient() = if (BuildConfig.DEBUG){
@@ -32,7 +30,7 @@ class APIModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL:String): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(BuildConfig.FLICKR_BASE_URL)
         .client(okHttpClient)
         .build()
 }

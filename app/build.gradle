@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
+    id "kotlin-android"
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -15,6 +17,8 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "FLICKR_BASE_URL", "\"https://www.flickr.com\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,9 +38,11 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         dataBinding true
         viewBinding true
     }
+    buildToolsVersion '33.0.0'
 }
 
 dependencies {

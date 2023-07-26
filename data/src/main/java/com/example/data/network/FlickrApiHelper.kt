@@ -4,6 +4,6 @@ import com.example.data.network.models.RetrofitPhotosItem
 import com.example.data.network.models.RetrofitPhotosResponse
 
 interface FlickrApiHelper {
-    suspend fun getRecentPhotos(): FlickrApiResult<RetrofitPhotosItem?>
-    suspend fun searchPhotos(term: String): FlickrApiResult<RetrofitPhotosItem?>
+    suspend fun getRecentPhotos(): FlickrApiResult<RetrofitPhotosItem>
+    suspend fun searchPhotos(term: String): FlickrApiResult<RetrofitPhotosItem>
 }

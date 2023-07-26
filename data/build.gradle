@@ -1,6 +1,7 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -8,13 +9,10 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.data"
         minSdk 28
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
-        buildConfigField "String", "FLICKR_API_KEY", "a0222db495999c951dc33702500fdc4d"
+        buildConfigField "String", "FLICKR_API_KEY", '"a0222db495999c951dc33702500fdc4d"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,16 +29,21 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
+    buildFeatures {
+        buildConfig true
+    }
+
+}
+
+kapt {
+    correctErrorTypes = true
+    generateStubs = true
 }
 
 dependencies {
-
     api project(':domain')
-
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
 
     api 'javax.inject:javax.inject:1'
 
