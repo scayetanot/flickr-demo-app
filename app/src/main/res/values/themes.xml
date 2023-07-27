@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.FlickrDemoApp" parent="Base.Theme.FlickrDemoApp" />
+
+    <style name="Theme.FlickrDemoApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.entities.FlickrPhotoItem
+import com.example.flickrdemoapp.ui.models.PhotoDetails
 import com.example.flickrdemoapp.ui.viewholders.FlickrPhotosViewHolder
 import com.example.flickrdemoapp.ui.viewmodels.FlickrViewModel
 
-class FlickrPhotosAdapters(private val context: Context?, private val viewModel: FlickrViewModel) :
-    ListAdapter<FlickrPhotoItem, FlickrPhotosViewHolder>(PHOTO_COMPARATOR) {
+class FlickrPhotosAdapters(private val viewModel: FlickrViewModel) :
+    ListAdapter<PhotoDetails, FlickrPhotosViewHolder>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlickrPhotosViewHolder =
         FlickrPhotosViewHolder.from(parent)
@@ -22,16 +23,16 @@ class FlickrPhotosAdapters(private val context: Context?, private val viewModel:
     }
 
     companion object {
-        private val PHOTO_COMPARATOR = object : DiffUtil.ItemCallback<FlickrPhotoItem>() {
+        private val PHOTO_COMPARATOR = object : DiffUtil.ItemCallback<PhotoDetails>() {
             override fun areItemsTheSame(
-                oldItem: FlickrPhotoItem,
-                newItem: FlickrPhotoItem
+                oldItem: PhotoDetails,
+                newItem: PhotoDetails
             ): Boolean =
                 oldItem == newItem
 
             override fun areContentsTheSame(
-                oldItem: FlickrPhotoItem,
-                newItem: FlickrPhotoItem
+                oldItem: PhotoDetails,
+                newItem: PhotoDetails
             ): Boolean =
                 oldItem == newItem
         }

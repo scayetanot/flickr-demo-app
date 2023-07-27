@@ -2,9 +2,13 @@ package com.example.flickrdemoapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.entities.FlickrPhotoItem
 import com.example.domain.entities.FlickrResult
 import com.example.domain.usecases.FlickrUseCases
 import com.example.flickrdemoapp.ui.models.FlickrState
+import com.example.flickrdemoapp.ui.models.PhotoDetails
+import com.example.flickrdemoapp.utils.Mapper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class FlickrViewModel @Inject constructor (
     private val flickrUseCases: FlickrUseCases
         ): ViewModel(){
@@ -30,7 +35,11 @@ class FlickrViewModel @Inject constructor (
             withContext(Dispatchers.IO) {
                 when(val result = flickrUseCases.getRecentPhotos()) {
                     is FlickrResult.OnSuccess -> {
-
+                        result.data?.photo?.let {
+                            _flickerPhotoState.value = FlickrState.RecentPhotos(
+                                Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
+                            )
+                        }
                     }
 
                     is FlickrResult.OnError -> {
@@ -39,6 +48,22 @@ class FlickrViewModel @Inject constructor (
                 }
             }
         }
+    }
+
+    fun onPhotoClick(photo: PhotoDetails) {
+        _flickerPhotoState.value = FlickrState.ShowPhotoDetails(photo)
+    }
+    fun onRetry() {
+        _flickerPhotoState.value = FlickrState.Loading
+        getRecentPhotos()
+    }
+
+    fun onClose() {
+        _flickerPhotoState.value = FlickrState.CloseDetails
+    }
+
+    fun resetState() {
+        _flickerPhotoState.value = FlickrState.Empty
     }
 
 

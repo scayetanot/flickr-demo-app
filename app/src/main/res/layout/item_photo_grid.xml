@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.domain.entities.FlickrPhotoItem" />
+            type="com.example.flickrdemoapp.ui.models.PhotoDetails" />
 
         <variable
             name="viewModel"
@@ -23,6 +23,8 @@
             android:background="@color/design_default_color_primary"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:onClick="@{() -> viewModel.onPhotoClick(item)}"
             app:flickrImage="@{item}"/>
 
 

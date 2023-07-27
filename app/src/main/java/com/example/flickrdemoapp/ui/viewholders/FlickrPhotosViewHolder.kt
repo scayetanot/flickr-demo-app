@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entities.FlickrPhotoItem
 import com.example.flickrdemoapp.databinding.ItemPhotoGridBinding
+import com.example.flickrdemoapp.ui.models.PhotoDetails
 import com.example.flickrdemoapp.ui.viewmodels.FlickrViewModel
 
 class FlickrPhotosViewHolder(val binding: ItemPhotoGridBinding):
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: FlickrPhotoItem, viewModel: FlickrViewModel) {
+    fun bind(item: PhotoDetails, viewModel: FlickrViewModel) {
         binding.item = item
         binding.viewModel = viewModel
         binding.executePendingBindings()

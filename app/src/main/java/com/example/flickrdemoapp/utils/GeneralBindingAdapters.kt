@@ -7,10 +7,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.domain.entities.FlickrPhotoItem
+import com.example.flickrdemoapp.ui.models.PhotoDetails
 
 
 @BindingAdapter("flickrImage")
-fun ImageView.flickrImage(flickrPhoto: FlickrPhotoItem) {
+fun ImageView.flickrImage(flickrPhoto: PhotoDetails) {
     getFlickrUrl(flickrPhoto)?.let { url ->
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -28,10 +29,10 @@ fun ImageView.flickrImage(flickrPhoto: FlickrPhotoItem) {
     }
 }
 
-private fun getFlickrUrl(flickrPhoto: FlickrPhotoItem): String? {
-    if(flickrPhoto.server.isNullOrBlank() or
-        flickrPhoto.id.isNullOrBlank() or
-        flickrPhoto.secret.isNullOrBlank())
+private fun getFlickrUrl(flickrPhoto: PhotoDetails): String? {
+    if(flickrPhoto.server.isBlank() or
+        flickrPhoto.id.isBlank() or
+        flickrPhoto.secret.isBlank())
         return null
 
     return "https://live.staticflickr.com/"+

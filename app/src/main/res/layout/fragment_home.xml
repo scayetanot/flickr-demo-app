@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.flickrdemoapp.ui.viewmodels.FlickrViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -24,7 +26,7 @@
                 android:layout_margin="12dp"
                 android:background="@drawable/cornered_background"
                 app:layout_constraintTop_toTopOf="parent"
-                app:queryHint="Search photos here."/>
+                app:queryHint="@string/search_query_hint"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photosGrid"
@@ -48,13 +50,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="An error occured!"/>
+                        android:text="@string/error_generic"/>
 
                     <Button
                         android:id="@+id/retryButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Try Again"/>
+                        android:onClick="@{() -> viewModel.onRetry()}"
+                        android:text="@string/try_again"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
