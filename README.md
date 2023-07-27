@@ -13,8 +13,9 @@ Requirements
   lib from google and have your own implementation *
 - You can use any libraries you want to use ( compose is cool if you are proficient in it)
 
-Develop branch is containing the app without paging
-Paging branch is containing the app with paging.
+Develop branch is containing the app without paging --> I RECOMMEND TESTING THIS FIRST
+
+Paging branch is containing the app with paging. --> PAGING HAS A PERF ISSUE AND A BUG when loading more data for the search
 
 ## Main patterns/tech...
 
@@ -35,9 +36,10 @@ Paging branch is containing the app with paging.
 - In case the list of photos returned is empty, a "No Photos" is displayed. User has to either user the search bar with empty string to gather the recent photos or enter a search term.
 - 3 columns grid
 
-## What I Wanted to add
+## What I Wanted to add/improve
 
 - When no photos, add a button to pull recent photos or just automatic trigger after few seconds
 - Support of Network Time-out in addition of error management
-- Pagination mechanism on develop branch
 - Add Unit test cases
+- Change Paging mechanism to move it out of the viewModel and performance issue. there is a condition testing issue when searching (paging branch ONLY)
+- Add refresh on pull
