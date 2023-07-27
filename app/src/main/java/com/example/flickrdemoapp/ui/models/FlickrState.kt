@@ -9,7 +9,7 @@ sealed class FlickrState {
     object CloseDetails: FlickrState()
     object NoPhotos: FlickrState()
     data class ShowPhotoDetails(val photo: PhotoDetails) : FlickrState()
-    data class DisplayPhotos(val photos: List<PhotoDetails>?) : FlickrState()
+    data class DisplayPhotos(val feed: PhotosFeed) : FlickrState()
     data class Error(val e: Exception) : FlickrState()
 
 }

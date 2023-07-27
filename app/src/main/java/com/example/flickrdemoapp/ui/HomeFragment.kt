@@ -93,9 +93,15 @@ class HomeFragment : Fragment() {
                          binding?.errorLayout?.visibility = View.GONE
                          binding?.noImagesFoundLayout?.visibility = View.GONE
 
-                         it.photos?.let {
-                             listOfPhotosToDisplay = it.toMutableList()
-                             flickrPhotosAdapter.submitList(it)
+                         it.feed.photos?.let { list ->
+                             if(listOfPhotosToDisplay.isEmpty())
+                                 listOfPhotosToDisplay = list.toMutableList()
+                             else
+                                 listOfPhotosToDisplay.addAll(list.toMutableList())
+                             flickrPhotosAdapter.submitList(listOfPhotosToDisplay)
+                         }
+                         if((it.feed.currentPage <= it.feed.totalPage) && (it.feed.currentPage == 1)) {
+                             viewModel.loadMoreData(it.feed.searchTerm, it.feed.totalPage)
                          }
                      }
                      is FlickrState.Error -> {

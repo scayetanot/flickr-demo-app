@@ -11,20 +11,20 @@ import javax.inject.Singleton
 class FlickrApiHelperImpl @Inject constructor(
     private var flickrService: FlickrService
 ): FlickrApiHelper {
-    override suspend fun getRecentPhotos(): FlickrApiResult<RetrofitPhotosItem> =
+    override suspend fun getRecentPhotos(page: Int): FlickrApiResult<RetrofitPhotosItem> =
         withContext(Dispatchers.IO) {
             try {
-                val response = flickrService.getRecentPhotos()
+                val response = flickrService.getRecentPhotos(page = page)
                 FlickrApiResult.OnSuccess(response.photos)
             } catch (e: Exception) {
                 FlickrApiResult.OnError(e)
             }
     }
 
-    override suspend fun searchPhotos(term: String): FlickrApiResult<RetrofitPhotosItem> =
+    override suspend fun searchPhotos(term: String, page: Int): FlickrApiResult<RetrofitPhotosItem> =
         withContext(Dispatchers.IO) {
             try {
-                val response = flickrService.seachPhotos(text = term)
+                val response = flickrService.seachPhotos(text = term, page = page)
                 FlickrApiResult.OnSuccess(response.photos)
             } catch (e: Exception) {
                 FlickrApiResult.OnError(e)

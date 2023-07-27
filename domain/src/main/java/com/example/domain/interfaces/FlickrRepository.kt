@@ -4,6 +4,6 @@ import com.example.domain.entities.FlickrPhotosList
 import com.example.domain.entities.FlickrResult
 
 interface FlickrRepository {
-    suspend fun getRecentPhotos(): FlickrResult<FlickrPhotosList?>
-    suspend fun searchPhotos(term: String): FlickrResult<FlickrPhotosList?>
+    suspend fun getRecentPhotos(page: Int): FlickrResult<FlickrPhotosList?>
+    suspend fun searchPhotos(term: String, page: Int): FlickrResult<FlickrPhotosList?>
 }
