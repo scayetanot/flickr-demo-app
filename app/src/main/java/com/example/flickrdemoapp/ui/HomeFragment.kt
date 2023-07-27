@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
                 } else {
                     viewModel.searchPhotos(binding?.searchBar?.text.toString())
                 }
+                binding?.searchBar?.text?.clear()
                 return@OnKeyListener true
             }
             false
