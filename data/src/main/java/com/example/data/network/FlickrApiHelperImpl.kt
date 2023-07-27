@@ -24,7 +24,7 @@ class FlickrApiHelperImpl @Inject constructor(
     override suspend fun searchPhotos(term: String): FlickrApiResult<RetrofitPhotosItem> =
         withContext(Dispatchers.IO) {
             try {
-                val response = flickrService.seachPhotos(term)
+                val response = flickrService.seachPhotos(text = term)
                 FlickrApiResult.OnSuccess(response.photos)
             } catch (e: Exception) {
                 FlickrApiResult.OnError(e)

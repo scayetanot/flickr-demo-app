@@ -36,10 +36,45 @@ class FlickrViewModel @Inject constructor (
                 when(val result = flickrUseCases.getRecentPhotos()) {
                     is FlickrResult.OnSuccess -> {
                         result.data?.photo?.let {
-                            _flickerPhotoState.value = FlickrState.RecentPhotos(
-                                Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
-                            )
+                            if(it.isNotEmpty()) {
+                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
+                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
+                                )
+                            } else {
+                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
+                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
+                                )
+                            }
+                            return@withContext
                         }
+                        _flickerPhotoState.value = FlickrState.NoPhotos
+                    }
+
+                    is FlickrResult.OnError -> {
+                        _flickerPhotoState.value = FlickrState.Error(result.exception)
+                    }
+                }
+            }
+        }
+    }
+
+    fun searchPhotos(term: String) {
+        viewModelScope.launch {
+            _flickerPhotoState.value = FlickrState.Loading
+            withContext(Dispatchers.IO) {
+                when(val result = flickrUseCases.searchPhotos(term)) {
+                    is FlickrResult.OnSuccess -> {
+                        result.data?.photo?.let {
+                            if(it.isNotEmpty()) {
+                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
+                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
+                                )
+                            } else {
+                                _flickerPhotoState.value = FlickrState.NoPhotos
+                            }
+                            return@withContext
+                        }
+                        _flickerPhotoState.value = FlickrState.NoPhotos
                     }
 
                     is FlickrResult.OnError -> {
@@ -65,6 +100,4 @@ class FlickrViewModel @Inject constructor (
     fun resetState() {
         _flickerPhotoState.value = FlickrState.Empty
     }
-
-
 }
