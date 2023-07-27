@@ -10,4 +10,5 @@ data class RetrofitPhotoItem(
     @field:com.google.gson.annotations.SerializedName("ispublic") val ispublic: Int?,
     @field:com.google.gson.annotations.SerializedName("isfriend") val isfriend: Int?,
     @field:com.google.gson.annotations.SerializedName("isfamily") val isfamily: Int?,
+    @field:com.google.gson.annotations.SerializedName("ownername") val ownername: String?
 )

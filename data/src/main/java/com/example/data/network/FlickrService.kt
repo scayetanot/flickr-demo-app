@@ -12,7 +12,7 @@ interface FlickrService {
         @Query("api_key") api_key: String = BuildConfig.FLICKR_API_KEY,
         @Query("format") format: String = "json",
         @Query("nojsoncallback") nojsoncallback: Int = 1,
-       // @Query("extras") extras: String = "url_s,date_taken,owner_name",
+        @Query("extras") extras: String = "owner_name",
         @Query("page") page:Int = 1
     ): RetrofitPhotosResponse
 
@@ -22,6 +22,8 @@ interface FlickrService {
         @Query("api_key") api_key: String = BuildConfig.FLICKR_API_KEY,
         @Query("text") text: String="",
         @Query("format") format: String = "json",
-        @Query("nojsoncallback") nojsoncallback: Int = 1
+        @Query("nojsoncallback") nojsoncallback: Int = 1,
+        @Query("extras") extras: String = "owner_name",
+        @Query("page") page:Int = 1
     ): RetrofitPhotosResponse
 }

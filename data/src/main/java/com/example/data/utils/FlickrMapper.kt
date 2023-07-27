@@ -22,7 +22,7 @@ object FlickrMapper {
             listOfPhotos.add(
                 FlickrPhotoItem(
                     id = it?.id,
-                    owner = it?.owner,
+                    owner = it?.ownername,
                     secret = it?.secret,
                     server = it?.server,
                     farm = it?.farm,
