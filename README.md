@@ -41,5 +41,6 @@ Paging branch is containing the app with paging. --> PAGING HAS A PERF ISSUE AND
 - When no photos, add a button to pull recent photos or just automatic trigger after few seconds
 - Support of Network Time-out in addition of error management
 - Add Unit test cases
-- Change Paging mechanism to move it out of the viewModel and performance issue. there is a condition testing issue when searching (paging branch ONLY)
+- Change Paging mechanism to move it out of the viewModel and have it in the repository part so the presentation part do not have to care about this.
+- Fix performance issue on Paging (paging branch ONLY) and condition test on search request.
 - Add refresh on pull
