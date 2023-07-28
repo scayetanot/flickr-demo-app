@@ -11,6 +11,7 @@ object Mapper {
         return PhotosFeed(
             currentPage = item.page ?:1,
             totalPage = item.pages ?:1,
+            searchTerm = "",
             photos = fromListFlickrPhotoItemToListPhotoDetails(item.photo)
         )
 

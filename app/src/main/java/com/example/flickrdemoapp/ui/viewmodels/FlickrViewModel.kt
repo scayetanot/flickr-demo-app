@@ -9,7 +9,6 @@ import com.example.flickrdemoapp.ui.models.PhotoDetails
 import com.example.flickrdemoapp.utils.Mapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -52,24 +51,6 @@ class FlickrViewModel @Inject constructor (
                     is FlickrResult.OnError -> {
                         _flickerPhotoState.value = FlickrState.Error(result.exception)
                     }
-                }
-            }
-        }
-    }
-
-    fun loadMoreData(term: String, maxPages: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                IntRange(2,maxPages).map {
-                    async {
-                        if(term.isBlank() == true) {
-                            getRecentPhotos(page = it)
-                        } else {
-                            searchPhotos(term = term, page = it)
-                        }
-                    }
-                }.forEach {
-                    it.await()
                 }
             }
         }
