@@ -9,7 +9,8 @@ import com.example.flickrdemoapp.ui.models.PhotoDetails
 import com.example.flickrdemoapp.ui.viewholders.FlickrPhotosViewHolder
 import com.example.flickrdemoapp.ui.viewmodels.FlickrViewModel
 
-class FlickrPhotosAdapters(private val viewModel: FlickrViewModel) :
+class FlickrPhotosAdapters(
+    private val viewModel: FlickrViewModel) :
     ListAdapter<PhotoDetails, FlickrPhotosViewHolder>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlickrPhotosViewHolder =

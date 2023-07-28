@@ -1,10 +1,10 @@
 package com.example.flickrdemoapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnKeyListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -47,6 +47,8 @@ class HomeFragment : Fragment() {
 
         binding?.searchBar?.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                listOfPhotosToDisplay.clear()
+                flickrPhotosAdapter.submitList(listOfPhotosToDisplay)
                 if(binding?.searchBar?.text.isNullOrEmpty()) {
                     viewModel.getRecentPhotos()
                 } else {
@@ -93,9 +95,20 @@ class HomeFragment : Fragment() {
                          binding?.errorLayout?.visibility = View.GONE
                          binding?.noImagesFoundLayout?.visibility = View.GONE
 
-                         it.photos?.let {
-                             listOfPhotosToDisplay = it.toMutableList()
-                             flickrPhotosAdapter.submitList(it)
+                         it.feed.photos?.let { list ->
+                             if(listOfPhotosToDisplay.isEmpty())
+                                 listOfPhotosToDisplay = list.toMutableList()
+                             else
+                                 listOfPhotosToDisplay.addAll(list.toMutableList())
+                             flickrPhotosAdapter.submitList(listOfPhotosToDisplay)
+                         }
+
+                         if((it.feed.currentPage < it.feed.totalPage)) {
+                             if(it.feed.searchTerm.isBlank()) {
+                                 viewModel.getRecentPhotos(it.feed.currentPage + 1)
+                             } else {
+                                 viewModel.searchPhotos(it.feed.searchTerm, it.feed.currentPage + 1)
+                             }
                          }
                      }
                      is FlickrState.Error -> {
@@ -114,6 +127,4 @@ class HomeFragment : Fragment() {
     private fun displayErrorMessage(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
-
-
 }

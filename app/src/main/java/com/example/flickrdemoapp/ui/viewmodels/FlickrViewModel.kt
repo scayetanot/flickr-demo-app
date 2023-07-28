@@ -2,7 +2,6 @@ package com.example.flickrdemoapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entities.FlickrPhotoItem
 import com.example.domain.entities.FlickrResult
 import com.example.domain.usecases.FlickrUseCases
 import com.example.flickrdemoapp.ui.models.FlickrState
@@ -29,21 +28,20 @@ class FlickrViewModel @Inject constructor (
         getRecentPhotos()
     }
 
-    fun getRecentPhotos() {
+    fun getRecentPhotos(page: Int = 1) {
         viewModelScope.launch {
-            _flickerPhotoState.value = FlickrState.Loading
+            if(page == 1)
+                _flickerPhotoState.value = FlickrState.Loading
             withContext(Dispatchers.IO) {
-                when(val result = flickrUseCases.getRecentPhotos()) {
+                when(val result = flickrUseCases.getRecentPhotos(page)) {
                     is FlickrResult.OnSuccess -> {
-                        result.data?.photo?.let {
-                            if(it.isNotEmpty()) {
-                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
-                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
-                                )
+                        result.data?.let {
+                            if(it.photo?.isNotEmpty() == true) {
+                                val photoResponse = Mapper.fromFlickrPhotosListToPhotosFeed(it)
+                                photoResponse.searchTerm = ""
+                                _flickerPhotoState.value = FlickrState.DisplayPhotos(photoResponse)
                             } else {
-                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
-                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
-                                )
+                                _flickerPhotoState.value = FlickrState.NoPhotos
                             }
                             return@withContext
                         }
@@ -58,17 +56,18 @@ class FlickrViewModel @Inject constructor (
         }
     }
 
-    fun searchPhotos(term: String) {
+    fun searchPhotos(term: String, page: Int = 1) {
         viewModelScope.launch {
-            _flickerPhotoState.value = FlickrState.Loading
+            if(page == 1)
+                _flickerPhotoState.value = FlickrState.Loading
             withContext(Dispatchers.IO) {
-                when(val result = flickrUseCases.searchPhotos(term)) {
+                when(val result = flickrUseCases.searchPhotos(term, page)) {
                     is FlickrResult.OnSuccess -> {
-                        result.data?.photo?.let {
-                            if(it.isNotEmpty()) {
-                                _flickerPhotoState.value = FlickrState.DisplayPhotos(
-                                    Mapper.fromListFlickrPhotoItemToListPhotoDetails(it)
-                                )
+                        result.data?.let {
+                            if(it.photo?.isNotEmpty() == true) {
+                                val photoResponse = Mapper.fromFlickrPhotosListToPhotosFeed(it)
+                                photoResponse.searchTerm = term
+                                _flickerPhotoState.value = FlickrState.DisplayPhotos(photoResponse)
                             } else {
                                 _flickerPhotoState.value = FlickrState.NoPhotos
                             }
